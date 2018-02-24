@@ -2,11 +2,11 @@
 
 namespace App\Middlewares;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoft\Bean\Annotation\Bean;
-use Swoft\Middleware\MiddlewareInterface;
+use Swoft\Http\Message\Middleware\MiddlewareInterface;
 
 /**
  * controler middleware test
@@ -21,14 +21,14 @@ use Swoft\Middleware\MiddlewareInterface;
 class ControlerTestMiddleware implements MiddlewareInterface
 {
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface     $request
-     * @param \Interop\Http\Server\RequestHandlerInterface $handler
-     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \InvalidArgumentException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        return $response->withAddedHeader('ControlerTestMiddleware', 'success');
+        return $response->withAddedHeader('Controler-Test-Middleware', 'success');
     }
 }

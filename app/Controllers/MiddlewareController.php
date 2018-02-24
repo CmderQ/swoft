@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use Swoft\Bean\Annotation\Controller;
-use Swoft\Bean\Annotation\Middleware;
-use Swoft\Bean\Annotation\Middlewares;
-use Swoft\Bean\Annotation\RequestMapping;
+use Swoft\Http\Server\Bean\Annotation\Controller;
+use Swoft\Http\Message\Bean\Annotation\Middleware;
+use Swoft\Http\Message\Bean\Annotation\Middlewares;
+use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use App\Middlewares\GroupTestMiddleware;
 use App\Middlewares\ActionTestMiddleware;
 use App\Middlewares\SubMiddleware;
@@ -14,53 +14,44 @@ use App\Middlewares\ControlerTestMiddleware;
 
 
 /**
- * @Controller("md")
- *
+ * @Controller("middleware")
  * @Middleware(class=ControlerTestMiddleware::class)
  * @Middlewares({
  *     @Middleware(ControlerSubMiddleware::class)
  * })
- *
- * @uses      MiddlewareController
- * @version   2017年11月29日
- * @author    stelin <phpcrazy@126.com>
- * @copyright Copyright 2010-2016 swoft software
- * @license   PHP Version 7.x {@link http://www.php.net/license/3_0.txt}
  */
 class MiddlewareController
 {
     /**
-     * @RequestMapping(route="caa")
-     *
+     * @RequestMapping()
      * @Middlewares({
      *     @Middleware(GroupTestMiddleware::class),
      *     @Middleware(ActionTestMiddleware::class)
      * })
      * @Middleware(SubMiddleware::class)
      */
-    public function controllerAndAction()
+    public function action1(): array
     {
         return ['middleware'];
     }
 
     /**
-     * @RequestMapping(route="caa2")
-     *
+     * @RequestMapping()
      * @Middleware(SubMiddleware::class)
      * @Middlewares({
      *     @Middleware(GroupTestMiddleware::class),
      *     @Middleware(ActionTestMiddleware::class)
      * })
      */
-    public function controllerAndAction2()
+    public function action2(): array
     {
         return ['middleware2'];
     }
 
     /**
-     * @RequestMapping("cm")
+     * @RequestMapping()
      */
-    public function controlerMiddleware()
+    public function action3(): array
     {
         return ['middleware3'];
     }
