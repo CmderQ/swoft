@@ -17,6 +17,7 @@ return [
         'App\Exception',
         'App\Listener',
         'App\Process',
+        'App\Fallback',
     ],
     'I18n'         => [
         'sourceLanguage' => '@root/resources/messages/',
@@ -26,4 +27,5 @@ return [
     'cache'        => require __DIR__ . DS . 'cache.php',
     'service'      => require __DIR__ . DS . 'service.php',
     'breaker'      => require __DIR__ . DS . 'breaker.php',
+    'provider'      => require __DIR__ . DS . 'provider.php',
 ];
