@@ -1,4 +1,12 @@
 <?php
+
+/*
+ * This file is part of Swoft.
+ * (c) Swoft <group@swoft.org>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
     'server'  => [
         'pfile'      => env('PFILE', '/tmp/swoft.pid'),
@@ -21,6 +29,12 @@ return [
         'mode' => env('HTTP_MODE', SWOOLE_PROCESS),
         'type'  => env('HTTP_TYPE', SWOOLE_SOCK_TCP),
     ],
+    'ws'  => [
+        // enable handle http request ?
+        'enable_http' => env('WS_ENABLE_HTTP', true),
+        // other settings will extend the 'http' config
+        // you can define separately to overwrite existing settings
+    ],
     'crontab' => [
         'task_count' => env('CRONTAB_TASK_COUNT', 1024),
         'task_queue' => env('CRONTAB_TASK_QUEUE', 2048),
@@ -36,8 +50,11 @@ return [
         'upload_tmp_dir'        => env('UPLOAD_TMP_DIR', '@runtime/uploadfiles'),
         'document_root'         => env('DOCUMENT_ROOT', BASE_PATH . '/public'),
         'enable_static_handler' => env('ENABLE_STATIC_HANDLER', true),
-		'open_http2_protocol' 	=> env('OPEN_HTTP2_PROTOCOL', false),
-		'ssl_cert_file'			=> env('SSL_CERT_FILE', ''),
-		'ssl_key_file'			=> env('SSL_KEY_FILE', ''),
+        'open_http2_protocol'   => env('OPEN_HTTP2_PROTOCOL', false),
+        'ssl_cert_file'         => env('SSL_CERT_FILE', ''),
+        'ssl_key_file'          => env('SSL_KEY_FILE', ''),
+        'task_ipc_mode'         => env('TASK_IPC_MODE', 2),
+        'message_queue_key'     => env('MESSAGE_QUEUE_KEY', 0x70001001),
+        'task_tmpdir'           => env('TASK_TMPDIR', '/tmp'),
     ],
 ];

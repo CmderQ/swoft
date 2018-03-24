@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of Swoft.
+ *
+ * @link https://swoft.org
+ * @document https://doc.swoft.org
+ * @contact group@swoft.org
+ * @license https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace App\Controllers;
 
@@ -26,14 +34,31 @@ class RedisController
      */
     private $redis;
 
+    /**
+     * @Inject("demoRedis")
+     * @var \Swoft\Redis\Redis
+     */
+    private $demoRedis;
+
+    public function testDemoRedis()
+    {
+        $result = $this->demoRedis->set('name', 'swoft');
+        $name   = $this->demoRedis->get('name');
+
+        $this->demoRedis->incr('count');
+        $this->demoRedis->incrBy('count2', 2);
+
+        return [$result, $name, $this->demoRedis->get('count'), $this->demoRedis->get('count2'), '3'];
+    }
+
     public function testCache()
     {
         $result = $this->cache->set('name', 'swoft');
         $name   = $this->cache->get('name');
 
-        $this->redis->incr("count");
+        $this->redis->incr('count');
 
-        $this->redis->incrBy("count2", 2);
+        $this->redis->incrBy('count2', 2);
 
         return [$result, $name, $this->redis->get('count'), $this->redis->get('count2'), '3'];
     }
@@ -46,12 +71,30 @@ class RedisController
         return [$result, $name];
     }
 
+    public function error()
+    {
+        $result = $this->redis->set('nameRedis', 'swoft2');
+        $name   = $this->redis->get('nameRedis');
+        $ret1 = $this->redis->deferCall('set', ['name1', 'swoft1']);
+        return [$name];
+    }
+
     public function ab()
     {
         $result1 = User::query()->select('*')->where('id', '720')->limit(1)->execute()->getResult();
         $result2 = $this->redis->set('test1', 1);
 
         return [$result1, $result2];
+    }
+
+    public function ab2()
+    {
+        var_dump($this->redis->incr("count"));
+        var_dump($this->redis->incr("count"));
+        var_dump($this->redis->incr("count"));
+        var_dump($this->redis->incr("count"));
+        $ret1 = $this->redis->deferCall('set', ['name1', 'swoft1']);
+        return ['ab'];
     }
 
     public function testFunc()
@@ -104,7 +147,7 @@ class RedisController
 
     public function has()
     {
-        $result = $this->cache->set("name666", 'swoft666');
+        $result = $this->cache->set('name666', 'swoft666');
         $ret    = $this->cache->has('name666');
 
         return [$result, $ret];

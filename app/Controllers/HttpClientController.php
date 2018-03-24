@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of Swoft.
+ *
+ * @link https://swoft.org
+ * @document https://doc.swoft.org
+ * @contact group@swoft.org
+ * @license https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace App\Controllers;
 
@@ -19,8 +27,8 @@ class HttpClientController
     public function request(): array
     {
         $client = new Client();
-        $result = $client->get('https://www.swoft.org')->getResult();
-        $result2 = $client->get('https://www.swoft.org')->getResponse()->getBody()->getContents();
+        $result = $client->get('http://www.swoft.org')->getResult();
+        $result2 = $client->get('http://www.swoft.org')->getResponse()->getBody()->getContents();
         return compact('result', 'result2');
     }
 }

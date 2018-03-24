@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of Swoft.
+ *
+ * @link https://swoft.org
+ * @document https://doc.swoft.org
+ * @contact group@swoft.org
+ * @license https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace App\Tasks;
 
@@ -41,11 +49,11 @@ class SyncTask
      */
     public function deliverCo(string $p1, string $p2)
     {
-        App::profileStart("co");
+        App::profileStart('co');
         App::trace('trace');
         App::info('info');
         App::pushlog('key', 'stelin');
-        App::profileEnd("co");
+        App::profileEnd('co');
 
         return sprintf('deliverCo-%s-%s', $p1, $p2);
     }
@@ -60,11 +68,11 @@ class SyncTask
      */
     public function deliverAsync(string $p1, string $p2)
     {
-        App::profileStart("co");
+        App::profileStart('co');
         App::trace('trace');
         App::info('info');
         App::pushlog('key', 'stelin');
-        App::profileEnd("co");
+        App::profileEnd('co');
 
         return sprintf('deliverCo-%s-%s', $p1, $p2);
     }
@@ -87,9 +95,9 @@ class SyncTask
      * @return array
      */
     public function mysql(){
-        $result = User::findById(720)->getResult();
+        $result = User::findById(4212)->getResult();
 
-        $query = User::findById(720);
+        $query = User::findById(4212);
 
         /* @var User $user */
         $user = $query->getResult(User::class);
@@ -112,6 +120,12 @@ class SyncTask
         return $data;
     }
 
+    public function console(string $data)
+    {
+        var_dump('console', $data);
+        return ['console'];
+    }
+
     /**
      * Rpc task
      *
@@ -119,7 +133,13 @@ class SyncTask
      */
     public function rpc()
     {
-        return $this->demoService->getUser('6666');
+        $user = $this->demoService->getUser('6666');
+        $defer1 = $this->demoService->deferGetUser('666');
+        $defer2 = $this->demoService->deferGetUser('888');
+
+        $result1 = $defer1->getResult();
+        $result2 = $defer2->getResult();
+        return [$user, $result1, $result2];
     }
 
     /**

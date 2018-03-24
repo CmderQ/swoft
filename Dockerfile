@@ -13,6 +13,7 @@ RUN apt-get update \
         zip \
         libz-dev \
         libssl-dev \
+        libnghttp2-dev \
     && apt-get clean \
     && apt-get autoremove
 
@@ -21,6 +22,8 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && composer self-update --clean-backups
 
 RUN pecl install redis && docker-php-ext-enable redis && pecl clear-cache
+
+RUN docker-php-ext-install pdo_mysql
 
 RUN wget https://github.com/redis/hiredis/archive/v0.13.3.tar.gz -O hiredis.tar.gz \
     && mkdir -p hiredis \
@@ -41,7 +44,7 @@ RUN wget https://github.com/swoole/swoole-src/archive/v2.1.1.tar.gz -O swoole.ta
     && ( \
         cd swoole \
         && phpize \
-        && ./configure --enable-async-redis --enable-mysqlnd --enable-coroutine --enable-openssl \
+        && ./configure --enable-async-redis --enable-mysqlnd --enable-coroutine --enable-openssl --enable-http2 \
         && make -j$(nproc) \
         && make install \
     ) \
